@@ -13,6 +13,10 @@ const currentUrl = ref<string>(props.url)
 const showIframe = ref<boolean>(false)
 const showLoading = ref<boolean>(false)
 
+// fix keleus/BewlyCat#93
+// 修复 iframe 内的源站 JS 计算元素错位
+const src = computed(() => showIframe.value ? props.url : 'about:blank')
+
 watch(() => isDark.value, (newValue) => {
   if (iframeRef.value?.contentWindow) {
     try {
@@ -138,7 +142,7 @@ defineExpose({
       <iframe
         v-show="showIframe"
         ref="iframeRef"
-        :src="props.url"
+        :src="src"
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
         :style="{
           bottom: headerShow ? `var(--bew-top-bar-height)` : '0',
