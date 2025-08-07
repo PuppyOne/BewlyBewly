@@ -133,22 +133,36 @@ defineExpose({
     <Transition name="fade">
       <Loading v-if="showLoading" w-full h-full pos="absolute top-0 left-0" />
     </Transition>
-    <Transition name="fade">
-      <!-- Iframe -->
-      <iframe
-        v-show="showIframe"
-        ref="iframeRef"
-        :src="props.url"
-        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
-        :style="{
-          bottom: headerShow ? `var(--bew-top-bar-height)` : '0',
-        }"
-        frameborder="0"
-        pointer-events-auto
-        pos="absolute left-0"
-        w-inherit h-inherit
-        @load="showIframe = true"
-      />
-    </Transition>
+    <!-- Iframe -->
+    <iframe
+      ref="iframeRef"
+      :class="showIframe ? 'visible' : 'hidden'"
+      :src="props.url"
+      sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
+      :style="{
+        bottom: headerShow ? `var(--bew-top-bar-height)` : '0',
+      }"
+      frameborder="0"
+      pointer-events-auto
+      pos="absolute left-0"
+      w-inherit h-inherit
+      @load="showIframe = true"
+    />
   </div>
 </template>
+
+<style lang="scss" scoped>
+iframe {
+  --uno: "transition-opacity duration-600";
+}
+
+.hidden {
+  --uno: "opacity-0";
+  visibility: hidden;
+}
+
+.visible {
+  --uno: "opacity-100";
+  visibility: visible;
+}
+</style>
